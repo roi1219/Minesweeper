@@ -17,25 +17,20 @@
         <button class="medium" onclick="getSize(this)">EASY </br> 8X8 </button>
         <button class="hard" onclick="getSize(this)">EASY </br> 12X12 </button>
     </div>
+    <div class="border">
+        🚩:<span class="mines-counter"></span>
+    </div>
+    <div class="emoji">😃</div>
+    <div class="border">
+        🧭:<span class="timer">0</span>
+    </div>
     <div class="main-container">
         <table>
-            <thead>
-                <td>
-                    🚩:<span class="mines-counter"> </span>
-                </td>
-                <td>
-                    🧭:<span class="timer">0</span>
-                </td>
-
-            </thead>
-
             <tbody class="cells">
-
             </tbody>
-
         </table>
-        <button onclick="restart()" data-name="restart" class="hidden">restart</button>
     </div>
+    <button onclick="restart()" data-name="restart" class="hidden restart">restart</button>
 
 
 

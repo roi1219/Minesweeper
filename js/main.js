@@ -90,6 +90,10 @@ function cellClicked(elBtn) {
     if (cellContent === MINE && gLeftOrRight) {
         elBtn.classList.add('hidden');
         elTd.innerText = cellContent;
+        clearInterval(gTimeInterval);
+        gTimeInterval = null;
+        var elEmoji = document.querySelector('.emoji');
+        elEmoji.innerText = '🤯';
         gameOver(elTd);
         return;
     }
@@ -133,8 +137,6 @@ function sideOfMouse(elBtn, ev) {
 }
 function gameOver(elTd) {
     gGame.isOn = false;
-    clearInterval(gTimeInterval);
-    gTimeInterval=null;
     elTd.classList.add('mine');
     var elRstBtn = document.querySelector(`[data-name="restart"]`);
     elRstBtn.classList.remove('hidden');
@@ -142,6 +144,8 @@ function gameOver(elTd) {
 }
 
 function restart() {
+    var elEmoji = document.querySelector('.emoji');
+    elEmoji.innerText = '😃';
     var elRstBtn = document.querySelector(`[data-name="restart"]`);
     elRstBtn.classList.add('hidden');
     var elTimerSpan = document.querySelector('.timer');
