@@ -52,12 +52,13 @@ function buildBoard() {
 
 function renderBoard() {
     var strHTML = '';
+    var id = 0;
     for (var i = 0; i < gBoard.length; i++) {
         strHTML += `<tr>\n`;
         for (var j = 0; j < gBoard.length; j++) {
             var cellContent = (gBoard[i][j].isMine) ? MINE : gBoard[i][j].minesAroundCount;
             if (!cellContent) cellContent = '';
-            strHTML += `<td class="cell" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button onmousedown="sideOfMouse(this,event)"></button></td>\n`
+            strHTML += `<td class="cell" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button id="${id++}" onmousedown="sideOfMouse(this,event)"></button></td>\n`
         }
         strHTML += `</tr>\n`
     }
@@ -98,12 +99,22 @@ function cellClicked(elBtn) {
         return;
     }
     else if (!gLeftOrRight) {
-        //update the model
-        gBoard[cellI][cellJ].isMarked = true;
-        //update the DOM
-        var elFlagSpan = document.querySelector('.mines-counter');
-        elFlagSpan.innerText--;
-        elBtn.innerText = FLAG;
+        if (gBoard[cellI][cellJ].isMarked) {
+            //update the model
+            gBoard[cellI][cellJ].isMarked = false;
+            //update the DOM
+            var elFlagSpan = document.querySelector('.mines-counter');
+            elFlagSpan.innerText++;
+            elBtn.innerText = '';
+        }
+        else {
+            //update the model
+            gBoard[cellI][cellJ].isMarked = true;
+            //update the DOM
+            var elFlagSpan = document.querySelector('.mines-counter');
+            elFlagSpan.innerText--;
+            elBtn.innerText = FLAG;
+        }
     }
     else {
         //update the model
@@ -139,11 +150,10 @@ function gameOver(elTd) {
     gGame.isOn = false;
     elTd.classList.add('mine');
     var elModal = document.querySelector('.modal');
-    var elP=elModal.querySelector('p');
-    elP.innerText='!*YoU ExPLoDeD*!'
-    elModal.style.display='block';
-    // var elRstBtn = document.querySelector('.modal');
-    // elRstBtn.classList.remove('hidden');
+    var elP = elModal.querySelector('p');
+    elP.innerText = '!!!*YoU ExPLoDeD*!!!'
+    elModal.style.display = 'block';
+    revealCells();
     return;
 }
 
@@ -151,14 +161,35 @@ function restart() {
     var elEmoji = document.querySelector('.emoji');
     elEmoji.innerText = '😃';
     var elModal = document.querySelector('.modal');
-    elModal.style.display='none';
-    // var elRstBtn = document.querySelector('.modal');
-    // elRstBtn.classList.add('hidden');
+    elModal.style.display = 'none';
     var elTimerSpan = document.querySelector('.timer');
     elTimerSpan.innerText = 0;
     buildBoard();
 }
 
 function isVictory() {
-    var winEmoji='😎🥳';
+    var winEmoji = '😎🥳';
 }
+
+// function revealCells() {
+//     var id = 0;
+//     var res = [];
+//     for (var i = 0; i < gBoard.length; i++) {
+//         for (var j = 0; j < gBoard.length; j++) {
+//             var currBtn = document.getElementById(`${id}`);
+//             res.push(currBtn);
+//             id++;
+//         }
+//     }
+//     while (res.length >= 0) {
+//         var idx = getRandomIntInclusive(0, res.length - 1);
+//         if (!res[idx]) {
+//             res.splice(idx, 1);
+//             continue;
+//         }
+//         else{
+//             res[idx].style.display = 'none';
+//             res.splice(idx, 1);
+//         }
+//     }
+// }
