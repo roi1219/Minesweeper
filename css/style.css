@@ -1,0 +1,29 @@
+.levels{
+    margin-bottom: 30px;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid grey;
+    text-align: center;
+}
+.cell button{
+    width: 30px;
+    height: 30px;
+    background-color: grey;
+}
+.cell button:hover{
+    background-color: lightgrey;
+}
+
+.mine{
+    background-color: red;
+}
+
+thead td{
+    border: 1px solid black;
+}
+.hidden{
+    display: none;
+}
