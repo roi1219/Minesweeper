@@ -138,17 +138,27 @@ function sideOfMouse(elBtn, ev) {
 function gameOver(elTd) {
     gGame.isOn = false;
     elTd.classList.add('mine');
-    var elRstBtn = document.querySelector(`[data-name="restart"]`);
-    elRstBtn.classList.remove('hidden');
+    var elModal = document.querySelector('.modal');
+    var elP=elModal.querySelector('p');
+    elP.innerText='!*YoU ExPLoDeD*!'
+    elModal.style.display='block';
+    // var elRstBtn = document.querySelector('.modal');
+    // elRstBtn.classList.remove('hidden');
     return;
 }
 
 function restart() {
     var elEmoji = document.querySelector('.emoji');
     elEmoji.innerText = '😃';
-    var elRstBtn = document.querySelector(`[data-name="restart"]`);
-    elRstBtn.classList.add('hidden');
+    var elModal = document.querySelector('.modal');
+    elModal.style.display='none';
+    // var elRstBtn = document.querySelector('.modal');
+    // elRstBtn.classList.add('hidden');
     var elTimerSpan = document.querySelector('.timer');
     elTimerSpan.innerText = 0;
     buildBoard();
+}
+
+function isVictory() {
+    var winEmoji='😎🥳';
 }

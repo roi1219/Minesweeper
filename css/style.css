@@ -4,10 +4,17 @@ body {
 }
 
 .levels {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.emoji{
+.levels button {
+    width: 70px;
+    height: 70px;
+    border-radius: 40px;
+    background-color: rgb(31, 209, 156);
+}
+
+.emoji {
     font-size: 40px;
     margin-bottom: 10px;
     margin-left: 15px;
@@ -15,12 +22,11 @@ body {
     display: inline-block;
 }
 
-
-.border{
+.border {
     width: 120px;
     height: 25px;
     display: inline-block;
-    border: 5px solid black;
+    border: 5px dashed black;
     margin-bottom: 10px;
 }
 
@@ -28,7 +34,7 @@ body {
     left: 0px;
 }
 
-.time {}
+/* .time {} */
 
 table {
     margin-left: auto;
@@ -59,10 +65,25 @@ table {
     background-color: red;
 }
 
-.hidden {
-    display: none;
+
+.main-container:last-child {
+    margin-top: 20px;
 }
 
-.main-container:last-child{
-    margin-top: 20px;
+.modal {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    width: 200px;
+    height: 100px;
+    border-radius: 30px;
+    background-color: rgba(255, 0, 0, 0.788);
+}
+
+.modal button {
+    border-radius: 60px;
+    width: 100px;
+    height: 50px;
+    background-image: url(../img/block.jpg);
 }

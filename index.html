@@ -14,8 +14,8 @@
     </div>
     <div class="levels">
         <button class="easy" onclick="getSize(this)">EASY </br> 4X4 </button>
-        <button class="medium" onclick="getSize(this)">EASY </br> 8X8 </button>
-        <button class="hard" onclick="getSize(this)">EASY </br> 12X12 </button>
+        <button class="medium" onclick="getSize(this)">MEDIUM </br> 8X8 </button>
+        <button class="hard" onclick="getSize(this)">HARD </br> 12X12 </button>
     </div>
     <div class="border">
         🚩:<span class="mines-counter"></span>
@@ -30,7 +30,10 @@
             </tbody>
         </table>
     </div>
-    <button onclick="restart()" data-name="restart" class="hidden restart">restart</button>
+    <div class="modal hidden">
+            <p class="msg">dlkffms</p>
+            <button onclick="restart()" data-name="restart" class="restart">restart</button>
+      </div>
 
 
 
