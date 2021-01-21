@@ -31,14 +31,16 @@ function getSize(elBtn) {
     clearInterval(gTimeInterval);
     gTimeInterval = null;
     var elTimerSpan = document.querySelector('.timer');
-    elTimerSpan.innerText=0;
+    elTimerSpan.innerText = 0;
     var elSpan = document.querySelector('.lives');
     elSpan.innerText = '❤️❤️❤️';
+    var elFlagSpan = document.querySelector('.mines-counter');
     if (elBtn.classList.contains('easy')) {
         gLevel = {
             size: 4,
             mines: 2
         };
+        elFlagSpan.innerText = gLevel.mines;
         buildBoard();
     }
     if (elBtn.classList.contains('medium')) {
@@ -46,6 +48,7 @@ function getSize(elBtn) {
             size: 8,
             mines: 12
         };
+        elFlagSpan.innerText = gLevel.mines;
         buildBoard();
     }
     if (elBtn.classList.contains('hard')) {
@@ -53,6 +56,7 @@ function getSize(elBtn) {
             size: 12,
             mines: 30
         };
+        elFlagSpan.innerText = gLevel.mines;
         buildBoard();
     }
 }
