@@ -18,11 +18,14 @@ body {
     font-size: 15px;
     color:red;
     font-weight: bolder;
-    margin-right: 1px;
+    margin-right: 5px;
 }
 
 .hints{
-    margin-left: 10px;
+    font-size: 15px;
+    color:red;
+    font-weight: bolder;
+    /* margin-left: 10px; */
 }
 
 .emoji {

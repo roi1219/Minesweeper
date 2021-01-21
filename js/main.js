@@ -9,6 +9,7 @@ var gGame;
 var gLeftOrRight;
 var gTimeInterval;
 var gClearInterval;
+var gHint;
 
 function init() {
     gLevel = null;
@@ -16,6 +17,10 @@ function init() {
 
 function buildBoard() {
     // debugger;
+    gHint = {
+        isOn: false,
+        hintsCount: 3
+    };
     gBoard = [];
     var size = gLevel.size;
     var mines = gLevel.mines;
@@ -90,6 +95,35 @@ function cellClicked(elBtn) {
         }
         else return;//if first click is flag(right click) dont do anything
     }
+    if (gHint.isOn && gHint.hintsCount > 0) {
+        var elSpan = document.querySelector('.active-hint');
+        elSpan.innerText='';
+        gHint.isOn = false;
+        gHint.hintsCount--;
+        var elSpan = document.querySelector('.hints');
+        elSpan.innerText = (gHint.hintsCount === 2) ? '💡💡' : ((gHint.hintsCount === 1) ? '💡' : 'NO MORE HINTS');
+        for (var i = cellI - 1; i <= parseInt(cellI) + 1; i++) {
+            for (var j = cellJ - 1; j <= parseInt(cellJ) + 1; j++) {
+                if (i < 0 || j < 0 || i > gBoard.length - 1 || j > gBoard.length - 1) continue;
+                var currBtn = document.querySelector(`button[data-i="${i}"][data-j="${j}"]`);
+                if (!currBtn) continue;
+                var currCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`);
+                var currContent = currCell.getAttribute('data-content');
+                currBtn.innerText = currContent
+            }
+        }
+        setTimeout(function () {
+            for (var i = cellI - 1; i <= cellI + 1; i++) {
+                for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+                    if (i < 0 || j < 0 || i > gBoard.length - 1 || j > gBoard.length - 1) continue;
+                    var currBtn = document.querySelector(`button[data-i="${i}"][data-j="${j}"]`);
+                    if (!currBtn) continue;
+                    currBtn.innerText = '';
+                }
+            }
+        }, 1000);
+        return;
+    }
     if (gBoard[cellI][cellJ].isMarked && gLeftOrRight) return;
     if (cellContent === MINE && gLeftOrRight) {
         if (gGame.lives > 1) {
@@ -97,9 +131,9 @@ function cellClicked(elBtn) {
             elBtn.innerText = cellContent;
             var elSpan = document.querySelector('.lives');
             elSpan.innerText = (gGame.lives === 2) ? '❤️❤️' : '❤️';
-            setTimeout(function(){
-                elBtn.innerText='';
-            },1000)
+            setTimeout(function () {
+                elBtn.innerText = '';
+            }, 1000)
         }
         else {
             var elSpan = document.querySelector('.lives');
@@ -151,22 +185,22 @@ function sideOfMouse(elBtn, ev) {
             gLeftOrRight = true;
             cellClicked(elBtn);
             break;
-        case 2:
+            case 2:
             break;
-        case 3:
-            gLeftOrRight = false;
-            cellClicked(elBtn);
+            case 3:
+                gLeftOrRight = false;
+                cellClicked(elBtn);
             break;
-    }
+        }
 }
 
 function gameOver(isWin) {
     gGame.isOn = false;
     clearInterval(gTimeInterval);
     gTimeInterval = null;
-
+    
     var elEmoji = document.querySelector('.emoji');
-
+    
     if (isWin) {
         var audioElement = new Audio('../audio/winner.wav');
         audioElement.play();
@@ -216,9 +250,9 @@ function getUnrevealCells() {
         for (var j = 0; j < gBoard.length; j++) {
             if (!gBoard[i][j].isShown) {
                 // setTimeout(function(){
-                //update the model
-                gBoard[i][j].isShown = true;
-                //update the DOM
+                    //update the model
+                    gBoard[i][j].isShown = true;
+                    //update the DOM
                 var currCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`);
                 var currContent = currCell.getAttribute('data-content');
                 if (currContent === MINE) currCell.classList.add('mine');
@@ -226,6 +260,18 @@ function getUnrevealCells() {
                 // },500);
             }
         }
+    }
+}
+
+function hint() {
+    var elSpan = document.querySelector('.active-hint');
+    if(gHint.isOn){
+        gHint.isOn=false;
+        elSpan.innerText=''
+    }
+    else{
+        gHint.isOn=true;
+        elSpan.innerText='✔️'
     }
 }
 
