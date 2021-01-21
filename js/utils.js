@@ -28,6 +28,12 @@ function howManyNegsMines(i, j) {
 }
 
 function getSize(elBtn) {
+    clearInterval(gTimeInterval);
+    gTimeInterval = null;
+    var elTimerSpan = document.querySelector('.timer');
+    elTimerSpan.innerText=0;
+    var elSpan = document.querySelector('.lives');
+    elSpan.innerText = '❤️❤️❤️';
     if (elBtn.classList.contains('easy')) {
         gLevel = {
             size: 4,

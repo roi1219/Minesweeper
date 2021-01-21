@@ -23,7 +23,8 @@ function buildBoard() {
         isOn: false,
         shownCount: 0,
         markedCount: 0,
-        secsPassed: 0
+        secsPassed: 0,
+        lives: 3
     };
     var board = [];
     for (var i = 0; i < size; i++) {
@@ -89,11 +90,25 @@ function cellClicked(elBtn) {
         }
         else return;//if first click is flag(right click) dont do anything
     }
+    if (gBoard[cellI][cellJ].isMarked && gLeftOrRight) return;
     if (cellContent === MINE && gLeftOrRight) {
-        elTd.innerText = cellContent;
-        elTd.classList.add('mine');
-        gameOver(false);
-        return;
+        if (gGame.lives > 1) {
+            gGame.lives--;
+            elBtn.innerText = cellContent;
+            var elSpan = document.querySelector('.lives');
+            elSpan.innerText = (gGame.lives === 2) ? '❤️❤️' : '❤️';
+            setTimeout(function(){
+                elBtn.innerText='';
+            },1000)
+        }
+        else {
+            var elSpan = document.querySelector('.lives');
+            elSpan.innerText = 'NO MORE LIFES';
+            elTd.innerText = cellContent;
+            elTd.classList.add('mine');
+            gameOver(false);
+            return;
+        }
     }
     else if (!gLeftOrRight) {
         if (gBoard[cellI][cellJ].isMarked) {
@@ -114,7 +129,7 @@ function cellClicked(elBtn) {
         }
     }
     else {
-        if(!cellContent) expandShown(cellI, cellJ);
+        if (!cellContent) expandShown(cellI, cellJ);
         //update the model
         gBoard[cellI][cellJ].isShown = true;
         //update the DOM
@@ -153,19 +168,26 @@ function gameOver(isWin) {
     var elEmoji = document.querySelector('.emoji');
 
     if (isWin) {
+        var audioElement = new Audio('../audio/winner.wav');
+        audioElement.play();
         elEmoji.innerText = '😎🥳';
     }
     else {
+        var audioElement = new Audio('../audio/bomb.wav');
+        audioElement.play();
         elEmoji.innerText = '🤯';
         getUnrevealCells();
-        // gClearInterval=setInterval(getUnrevealCells, 1000);
     }
     return;
 }
 
 function restart() {
+    clearInterval(gTimeInterval);
+    gTimeInterval = null;
     var elEmoji = document.querySelector('.emoji');
     elEmoji.innerText = '😃';
+    var elSpan = document.querySelector('.lives');
+    elSpan.innerText = '❤️❤️❤️';
     var elTimerSpan = document.querySelector('.timer');
     elTimerSpan.innerText = 0;
     buildBoard();
