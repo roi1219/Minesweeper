@@ -8,6 +8,7 @@ var gLevel;
 var gGame;
 var gLeftOrRight;
 var gTimeInterval;
+var gClearInterval;
 
 function init() {
     gLevel = null;
@@ -52,13 +53,12 @@ function buildBoard() {
 
 function renderBoard() {
     var strHTML = '';
-    var id = 0;
     for (var i = 0; i < gBoard.length; i++) {
         strHTML += `<tr>\n`;
         for (var j = 0; j < gBoard.length; j++) {
             var cellContent = (gBoard[i][j].isMine) ? MINE : gBoard[i][j].minesAroundCount;
-            if (!cellContent) cellContent = '';
-            strHTML += `<td class="cell" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button id="${id++}" onmousedown="sideOfMouse(this,event)"></button></td>\n`
+            if (!cellContent) cellContent = '';//if there is no neighboors dont write anything insted of zero
+            strHTML += `<td class="cell" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button data-i="${i}" data-j="${j}" onmousedown="sideOfMouse(this,event)"></button></td>\n`
         }
         strHTML += `</tr>\n`
     }
@@ -69,12 +69,14 @@ function renderBoard() {
 }
 
 function cellClicked(elBtn) {
+    // debugger;
     var elTd = elBtn.parentElement;
     var cellContent = elTd.getAttribute('data-content');
     var cellI = elTd.getAttribute('data-i');
     var cellJ = elTd.getAttribute('data-j');
-    if (!gGame.isOn) {
+    if (!gGame.isOn) {//first click
         if (gLeftOrRight) {
+            expandShown(cellI, cellJ);
             gTimeInterval = setInterval(function () {
                 var elTimerSpan = document.querySelector('.timer');
                 elTimerSpan.innerText++;
@@ -83,19 +85,14 @@ function cellClicked(elBtn) {
             //update the model
             gBoard[cellI][cellJ].isShown = true;
             //update the DOM
-            elBtn.classList.add('hidden');
             elTd.innerText = cellContent;
         }
-        else return;
+        else return;//if first click is flag(right click) dont do anything
     }
     if (cellContent === MINE && gLeftOrRight) {
-        elBtn.classList.add('hidden');
         elTd.innerText = cellContent;
-        clearInterval(gTimeInterval);
-        gTimeInterval = null;
-        var elEmoji = document.querySelector('.emoji');
-        elEmoji.innerText = '🤯';
-        gameOver(elTd);
+        elTd.classList.add('mine');
+        gameOver(false);
         return;
     }
     else if (!gLeftOrRight) {
@@ -117,12 +114,13 @@ function cellClicked(elBtn) {
         }
     }
     else {
+        if(!cellContent) expandShown(cellI, cellJ);
         //update the model
         gBoard[cellI][cellJ].isShown = true;
         //update the DOM
-        elBtn.classList.add('hidden');
         elTd.innerText = cellContent;
     }
+    if (isVictory()) gameOver(true);
 
 }
 
@@ -146,50 +144,89 @@ function sideOfMouse(elBtn, ev) {
             break;
     }
 }
-function gameOver(elTd) {
+
+function gameOver(isWin) {
     gGame.isOn = false;
-    elTd.classList.add('mine');
-    var elModal = document.querySelector('.modal');
-    var elP = elModal.querySelector('p');
-    elP.innerText = '!!!*YoU ExPLoDeD*!!!'
-    elModal.style.display = 'block';
-    revealCells();
+    clearInterval(gTimeInterval);
+    gTimeInterval = null;
+
+    var elEmoji = document.querySelector('.emoji');
+
+    if (isWin) {
+        elEmoji.innerText = '😎🥳';
+    }
+    else {
+        elEmoji.innerText = '🤯';
+        getUnrevealCells();
+        // gClearInterval=setInterval(getUnrevealCells, 1000);
+    }
     return;
 }
 
 function restart() {
     var elEmoji = document.querySelector('.emoji');
     elEmoji.innerText = '😃';
-    var elModal = document.querySelector('.modal');
-    elModal.style.display = 'none';
     var elTimerSpan = document.querySelector('.timer');
     elTimerSpan.innerText = 0;
     buildBoard();
 }
 
 function isVictory() {
-    var winEmoji = '😎🥳';
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard.length; j++) {
+            var currCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`);
+            var currContent = currCell.getAttribute('data-content');
+            if (!gBoard[i][j].isShown && currContent === MINE) {
+                if (!gBoard[i][j].isMarked) return false;
+            }
+            if (!gBoard[i][j].isShown && currContent !== MINE) {
+                return false;
+            }
+        }
+
+    }
+    return true;
 }
 
-// function revealCells() {
-//     var id = 0;
-//     var res = [];
-//     for (var i = 0; i < gBoard.length; i++) {
-//         for (var j = 0; j < gBoard.length; j++) {
-//             var currBtn = document.getElementById(`${id}`);
-//             res.push(currBtn);
-//             id++;
-//         }
-//     }
-//     while (res.length >= 0) {
-//         var idx = getRandomIntInclusive(0, res.length - 1);
-//         if (!res[idx]) {
-//             res.splice(idx, 1);
-//             continue;
-//         }
-//         else{
-//             res[idx].style.display = 'none';
-//             res.splice(idx, 1);
-//         }
-//     }
-// }
+function getUnrevealCells() {
+    // debugger;
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard.length; j++) {
+            if (!gBoard[i][j].isShown) {
+                // setTimeout(function(){
+                //update the model
+                gBoard[i][j].isShown = true;
+                //update the DOM
+                var currCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`);
+                var currContent = currCell.getAttribute('data-content');
+                if (currContent === MINE) currCell.classList.add('mine');
+                currCell.innerText = currContent;
+                // },500);
+            }
+        }
+    }
+}
+
+function expandShown(i, j) {
+    gBoard[i][j].isShown = true;
+    var elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`);
+    var currContent = elCell.getAttribute('data-content');
+    if (currContent !== MINE) elCell.innerText = currContent;
+    for (var k = i - 1; k <= parseInt(i) + 1; k++) {
+        for (var d = j - 1; d <= parseInt(j) + 1; d++) {
+            if (k < 0 || d < 0 || k > gBoard.length - 1 || d > gBoard.length - 1) continue;
+            if (k === i && d === j) continue;
+            var currCell = gBoard[k][d];
+            if (currCell.isShown) continue;
+            var negsCount = currCell.minesAroundCount;
+            currCell.isShown = true;
+            elCell = document.querySelector(`[data-i="${k}"][data-j="${d}"]`);
+            currContent = elCell.getAttribute('data-content');
+            if (currContent !== MINE) elCell.innerText = currContent
+            if (negsCount === 0) {
+                expandShown(k, d);
+            }
+        }
+    }
+}
+

@@ -9,20 +9,19 @@
 </head>
 
 <body onload="init()">
+
     <div class="header">
-        <h1>Minesweeper</h1>
+        <h1>💣Minesweeper💣</h1>
     </div>
     <div class="levels">
         <button class="easy" onclick="getSize(this)">EASY </br> 4X4 </button>
         <button class="medium" onclick="getSize(this)">MEDIUM </br> 8X8 </button>
         <button class="hard" onclick="getSize(this)">HARD </br> 12X12 </button>
     </div>
-    <div class="border">
-        🚩:<span class="mines-counter"></span>
-    </div>
-    <div class="emoji">😃</div>
-    <div class="border">
-        🧭:<span class="timer">0</span>
+    <div>
+        <span class="border">🚩:<span class="mines-counter"></span></span>
+        <button class="emoji" onclick="restart()">😃</button>
+        <span class="border">🧭:<span class="timer">0</span></span>
     </div>
     <div class="main-container">
         <table>
@@ -30,15 +29,6 @@
             </tbody>
         </table>
     </div>
-    <div class="modal hidden">
-            <p class="msg">dlkffms</p>
-            <button onclick="restart()" data-name="restart" class="restart">restart</button>
-      </div>
-
-
-
-
-
 
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>

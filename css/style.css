@@ -15,24 +15,24 @@ body {
 }
 
 .emoji {
-    font-size: 40px;
-    margin-bottom: 10px;
-    margin-left: 15px;
-    margin-right: 15px;
+    width: 120px;
+    height: 40px;
+    font-size: 30px;
+    background: none;
+    border: none;
     display: inline-block;
+    outline: none;
 }
 
 .border {
     width: 120px;
     height: 25px;
     display: inline-block;
-    border: 5px dashed black;
+    border: 5px solid black;
     margin-bottom: 10px;
 }
 
-.flag {
-    left: 0px;
-}
+/* .flag {} */
 
 /* .time {} */
 
@@ -65,17 +65,18 @@ table {
     background-color: red;
 }
 
-
 .main-container:last-child {
     margin-top: 20px;
 }
 
-.modal {
+/* .modal {
     display: none;
+    justify-content: center;
+    align-items: center;
     margin-left: auto;
     margin-right: auto;
     padding: 50px;
-    width: 200px;
+    width: 300px;
     height: 100px;
     border-radius: 30px;
     background-color: rgba(255, 0, 0, 0.788);
@@ -86,4 +87,4 @@ table {
     width: 100px;
     height: 50px;
     background-image: url(../img/block.jpg);
-}
+} */
