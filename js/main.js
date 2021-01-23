@@ -13,6 +13,7 @@ var gHint;
 var gIsPlaceMine;
 var gSafeClick;
 var gMoves;
+var gIsPaused;
 
 function init() {
     gLevel = null;
@@ -33,6 +34,7 @@ function buildBoard() {
         hintsCount: 3
     };
     gSafeClick = 3;
+    gIsPaused = false;
     var size = gLevel.size;
     var mines = gLevel.mines;
     var board = [];
@@ -98,10 +100,10 @@ function renderBoard() {
         for (var j = 0; j < gBoard.length; j++) {
             var cellContent = (gBoard[i][j].isMine) ? MINE : gBoard[i][j].minesAroundCount;
             var textColorClass;
-            if(cellContent>=3) textColorClass='red';
-            else if(cellContent===2) textColorClass='green';
-            else if(cellContent===1) textColorClass='blue';
-            else textColorClass='';
+            if (cellContent >= 3) textColorClass = 'red';
+            else if (cellContent === 2) textColorClass = 'green';
+            else if (cellContent === 1) textColorClass = 'blue';
+            else textColorClass = '';
             if (!cellContent) cellContent = '';//if there is no neighboors dont write anything insted of zero
             strHTML += `<td class="cell ${textColorClass}" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button data-i="${i}" data-j="${j}" onmousedown="sideOfMouse(this,event)"></button></td>\n`
         }
@@ -255,6 +257,31 @@ function cellClicked(elBtn) {
 
 }
 
+function pause() {
+    gIsPaused = !gIsPaused;
+    var elTable = document.querySelector('table');
+    elTable.classList.toggle('blur');
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard.length; j++) {
+            var elTdBtn = document.querySelector(`button[data-i="${i}"][data-j="${j}"]`);
+            if (elTdBtn) elTdBtn.classList.toggle('disabled');
+        }
+    }
+    var elbtn = document.querySelector('.pause');
+    if (!gIsPaused) {
+        elbtn.innerText = 'PAUSE GAME';
+        gTimeInterval = setInterval(function () {
+            var elTimerSpan = document.querySelector('.timer');
+            elTimerSpan.innerText++;
+        }, 1000);
+    }
+    else {
+        elTable.classList.add('blur');
+        elbtn.innerText = 'RESUME GAME';
+        clearInterval(gTimeInterval);
+    }
+}
+
 function sideOfMouse(elBtn, ev) {
     // debugger;
     //remove defualt menu of right click
@@ -282,13 +309,11 @@ function gameOver(isWin) {
     gTimeInterval = null;
     var elEmoji = document.querySelector('.emoji');
     if (isWin) {
-        var audioElement = new Audio('../audio/winner.mp3');
-        audioElement.play();
+        document.getElementById('winner').play();
         elEmoji.innerText = '😎🥳';
     }
     else {
-        var audioElement = new Audio('../audio/bomb.mp3');
-        audioElement.play();
+        document.getElementById('bomb').play();
         elEmoji.innerText = '🤯';
         getUnrevealCells();
     }
@@ -415,7 +440,6 @@ function safeClick() {
         elCell.classList.remove('safe-click');
     }, 1000);
 }
-
 
 function undo() {
     if (!gMoves) return;

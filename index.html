@@ -22,6 +22,7 @@
         <button class="hard level" onclick="getSize(this)">HARD </br> 12X12 </button>
         <button class="manul-mines" onclick="placeMines()">PLACE MINES</button>
         <button class="manul-mines" onclick="confirm()">PUT MINES</button>
+        <button class="pause" onclick="pause()">PAUSE GAME</button>
     </div>
     <span class="safe-clicks">👼👼👼</span><span class="lives">❤️❤️❤️</span><span class="hints">💡💡💡</span><span class="active-hint"></span>
     <div>
@@ -35,6 +36,9 @@
             </tbody>
         </table>
     </div>
+
+    <audio id="bomb" src="audio/bomb.mp3"></audio>
+    <audio id="winner" src="audio/winner.mp3"></audio>
 
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
