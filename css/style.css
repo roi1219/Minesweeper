@@ -4,29 +4,64 @@ body {
     box-sizing: border-box;
 }
 
-/* .levels {} */
-
-.levels button {
+.help {
     width: 70px;
     height: 70px;
     border-radius: 40px;
-    background-color: rgb(31, 209, 156);
+    background-color: mediumspringgreen;
     outline: none;
 }
 
+.safe-click button {
+    border: 5px rgba(255, 230, 0, 0.829) solid;
+    /* background-color: yellow; */
+}
+
+.level {
+    width: 70px;
+    height: 70px;
+    border-radius: 40px;
+    background-color: lightsalmon;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.manul-mines {
+    width: 70px;
+    height: 70px;
+    border-radius: 40px;
+    background-color: slateblue;
+    outline: none;
+}
+
+.easy {
+    margin-left: 30px;
+}
+
+.hard {
+    margin-right: 30px;
+}
+
+.safe-clicks{
+    font-size: 15px;
+    color: red;
+    font-weight: bolder;
+    margin-right: 30px;
+}
 
 .lives {
     font-size: 15px;
-    color:red;
+    color: red;
     font-weight: bolder;
-    margin-right: 5px;
+    /* margin-right: 5px; */
+    /* margin-left: 25px; */
 }
 
-.hints{
+.hints {
     font-size: 15px;
-    color:red;
+    color: red;
     font-weight: bolder;
-    /* margin-left: 10px; */
+    margin-left: 45px;
 }
 
 .emoji {
@@ -47,24 +82,21 @@ body {
     margin-bottom: 10px;
 }
 
-/* .flag {} */
-
-/* .time {} */
-ol{
-    float: left;
-}
-
 table {
     margin-left: auto;
     margin-right: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 .cell {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border: 1px solid grey;
     background-color: lightgrey;
     text-align: center;
+    margin-bottom: 0px;
+    border-collapse: collapse;
 }
 
 .cell button {

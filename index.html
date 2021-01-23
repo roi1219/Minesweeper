@@ -13,15 +13,17 @@
     <div class="header">
         <h1>💣Minesweeper💣</h1>
     </div>
-    <div class="levels">
-        <button class="easy" onclick="getSize(this)">EASY </br> 4X4 </button>
-        <button class="medium" onclick="getSize(this)">MEDIUM </br> 8X8 </button>
-        <button class="hard" onclick="getSize(this)">HARD </br> 12X12 </button>
-        <button class="hint" onclick="hint()">USE HINT</button>
+    <div class="buttons">
+        <button class="undo help" onclick="undo()">UNDO MOVE</button>
+        <button class="safe-click help" onclick="safeClick()">SAFE CLICK</button>
+        <button class="hint help" onclick="hint()">USE HINT</button>
+        <button class="easy level" onclick="getSize(this)">EASY </br> 4X4 </button>
+        <button class="medium level" onclick="getSize(this)">MEDIUM </br> 8X8 </button>
+        <button class="hard level" onclick="getSize(this)">HARD </br> 12X12 </button>
         <button class="manul-mines" onclick="placeMines()">PLACE MINES</button>
         <button class="manul-mines" onclick="confirm()">PUT MINES</button>
     </div>
-    <span class="lives">❤️❤️❤️</span><span class="hints">💡💡💡</span><span class="active-hint"></span>
+    <span class="safe-clicks">👼👼👼</span><span class="lives">❤️❤️❤️</span><span class="hints">💡💡💡</span><span class="active-hint"></span>
     <div>
         <span class="border">🚩:<span class="mines-counter"></span></span>
         <button class="emoji" onclick="restart()">😃</button>

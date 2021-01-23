@@ -27,7 +27,8 @@ function howManyNegsMines(i, j) {
     return countNegs;
 }
 
-function getSize(elBtn) {
+function getSize(elBtn) { 
+    
     clearInterval(gTimeInterval);
     gTimeInterval = null;
     var elTimerSpan = document.querySelector('.timer');
