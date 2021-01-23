@@ -97,8 +97,13 @@ function renderBoard() {
         strHTML += `<tr>\n`;
         for (var j = 0; j < gBoard.length; j++) {
             var cellContent = (gBoard[i][j].isMine) ? MINE : gBoard[i][j].minesAroundCount;
+            var textColorClass;
+            if(cellContent>=3) textColorClass='red';
+            else if(cellContent===2) textColorClass='green';
+            else if(cellContent===1) textColorClass='blue';
+            else textColorClass='';
             if (!cellContent) cellContent = '';//if there is no neighboors dont write anything insted of zero
-            strHTML += `<td class="cell" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button data-i="${i}" data-j="${j}" onmousedown="sideOfMouse(this,event)"></button></td>\n`
+            strHTML += `<td class="cell ${textColorClass}" data-i="${i}" data-j="${j}" data-content="${cellContent}"><button data-i="${i}" data-j="${j}" onmousedown="sideOfMouse(this,event)"></button></td>\n`
         }
         strHTML += `</tr>\n`
     }

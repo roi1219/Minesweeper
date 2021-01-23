@@ -111,6 +111,16 @@ table {
     background-color: lightgrey;
 }
 
+.blue{
+    color:blue;
+}
+.green{
+    color:green;
+}
+.red{
+    color:red;
+}
+
 .mine {
     background-color: red;
 }
